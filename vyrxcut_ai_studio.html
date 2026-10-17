@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VyrxCut — 100% Free AI Video Editing Studio (No Ads, No Sub)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        studio: {
+                            950: '#06070b',
+                            900: '#0c0e16',
+                            850: '#121623',
+                            800: '#191e30',
+                            700: '#252c44',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #06070b;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0c0e16; }
+        ::-webkit-scrollbar-thumb { background: #252c44; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+        @keyframes hormoziPop {
+            0% { transform: scale(0.72) rotate(-2deg); opacity: 0; }
+            70% { transform: scale(1.09) rotate(1deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .caption-hormozi {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #fde047;
+            text-shadow: 0 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 8px 20px rgba(0,0,0,0.95);
+            animation: hormoziPop 0.24s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .caption-minimal {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            background: rgba(10, 12, 20, 0.84);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.65);
+        }
+
+        @keyframes scanBeam {
+            0% { top: 0%; opacity: 0.9; }
+            50% { top: 92%; opacity: 1; }
+            100% { top: 0%; opacity: 0.9; }
+        }
+        .scanner-line { animation: scanBeam 1.8s infinite ease-in-out; }
+        .ai-glow { box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.45), 0 0 12px -5px rgba(236, 72, 153, 0.35); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+
+    <header class="min-h-16 py-2 border-b border-studio-800 bg-studio-900/95 backdrop-blur-md px-4 lg:px-6 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+            <!-- Custom VyrxCut Vector Logo -->
+            <div onclick="openLogoGoogleModal()" class="relative group cursor-pointer" title="Click to download Logo or merge with Google Sites">
+                <svg id="vyrxMainLogoSvg" width="44" height="44" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-xl shadow-lg shadow-indigo-500/30 transition transform group-hover:scale-105">
+                    <defs>
+                        <linearGradient id="vyrxBgGrad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#4F46E5"/>
+                            <stop offset="50%" stop-color="#9333EA"/>
+                            <stop offset="100%" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="vyrxBladeGrad" x1="25" y1="25" x2="95" y2="95" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#FFFFFF"/>
+                            <stop offset="100%" stop-color="#E0E7FF"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Squircle Base -->
+                    <rect width="120" height="120" rx="28" fill="url(#vyrxBgGrad)"/>
+                    <rect x="4" y="4" width="112" height="112" rx="24" stroke="white" stroke-opacity="0.22" stroke-width="2"/>
+                    <!-- Film Perforation Dots -->
+                    <circle cx="20" cy="34" r="3" fill="white" fill-opacity="0.45"/>
+                    <circle cx="20" cy="60" r="3" fill="white" fill-opacity="0.45"/>
+                    <circle cx="20" cy="86" r="3" fill="white" fill-opacity="0.45"/>
+                    <circle cx="100" cy="34" r="3" fill="white" fill-opacity="0.45"/>
+                    <circle cx="100" cy="60" r="3" fill="white" fill-opacity="0.45"/>
+                    <circle cx="100" cy="86" r="3" fill="white" fill-opacity="0.45"/>
+                    <!-- Dynamic "V" Cut + Play Prism -->
+                    <path d="M32 32L56 88L66 66L46 32H32Z" fill="url(#vyrxBladeGrad)"/>
+                    <path d="M88 32L62 88H74L100 32H88Z" fill="#FDE047"/>
+                    <!-- Play Triangle Cutout Accent -->
+                    <polygon points="56,44 76,56 56,68" fill="white"/>
+                </svg>
+            </div>
+            <div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <h1 class="font-display font-bold text-lg tracking-tight text-white">VyrxCut <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">AI Studio</span></h1>
+                    <span class="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Google Sites Ready • 100% Free
+                    </span>
+                </div>
+                <p class="text-[11px] text-slate-400 hidden sm:block">Client-Side WebGL/Canvas AI Engine • Zero Server Queue • Instant Reels & Shorts Editor</p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+            <!-- Google Sites & Logo Kit Button -->
+            <button onclick="openLogoGoogleModal()" class="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition shadow-sm">
+                <i data-lucide="layout-template" class="w-4 h-4 text-amber-400"></i>
+                <span>Logo & Google Sites Merge</span>
+            </button>
+
+            <div class="flex items-center gap-1.5 bg-studio-850 border border-studio-700 rounded-xl px-2.5 py-1.5">
+                <button onclick="toggleViralWatermark()" class="text-[11px] font-semibold text-emerald-300 flex items-center gap-1.5">
+                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span class="hidden md:inline">Watermark:</span>
+                    <span id="watermarkStateBadge" class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">ON</span>
+                </button>
+                <select id="watermarkPosSelect" onchange="setWatermarkPosition(this.value)" class="bg-studio-950 border border-studio-700 rounded-lg px-1.5 py-0.5 text-[10px] text-slate-300 focus:outline-none">
+                    <option value="bottom-right" selected>Bottom-Right</option>
+                    <option value="top-right">Top-Right</option>
+                    <option value="top-left">Top-Left</option>
+                </select>
+            </div>
+
+            <button onclick="loadSampleVideo(false)" class="px-3 py-2 rounded-xl bg-studio-800 hover:bg-studio-700 border border-studio-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition">
+                <i data-lucide="play-square" class="w-4 h-4 text-indigo-400"></i>
+                <span class="hidden sm:inline">Sample Clip</span>
+            </button>
+            <button onclick="openExportModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-xs font-semibold text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30 transition">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Export Free Video</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 max-w-[1880px] w-full mx-auto">
+
+        <!-- LEFT COLUMN -->
+        <section class="lg:col-span-4 xl:col-span-3 flex flex-col gap-4">
+            <div class="bg-studio-900 border border-studio-800 rounded-2xl p-4 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-xs font-bold flex items-center justify-center">1</span>
+                        <h2 class="font-display font-semibold text-sm text-white">Upload Video or Try Sample</h2>
+                    </div>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-studio-850 text-slate-400 border border-studio-700">MP4 • WEBM • MOV</span>
+                </div>
+
+                <div id="dropzone" onclick="document.getElementById('videoFileInput').click()" class="border-2 border-dashed border-studio-700 hover:border-indigo-500/80 bg-studio-950/70 hover:bg-indigo-950/15 rounded-xl p-3.5 text-center transition cursor-pointer group">
+                    <input type="file" id="videoFileInput" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
+                    <div class="w-9 h-9 rounded-full bg-studio-800 group-hover:bg-indigo-500/20 mx-auto flex items-center justify-center mb-1.5 transition">
+                        <i data-lucide="upload-cloud" class="w-4 h-4 text-indigo-400"></i>
+                    </div>
+                    <p class="text-xs font-semibold text-slate-200">Drag & drop your video or click to browse</p>
+                    <button type="button" onclick="event.stopPropagation(); loadSampleVideo(false);" class="mt-2 px-3 py-1.5 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/30 text-indigo-300 text-xs font-semibold inline-flex items-center gap-1.5 transition">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        Load Sample Video
+                    </button>
+                </div>
+
+                <div class="mt-2.5 p-3 rounded-xl bg-studio-850 border border-studio-700">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
+                                <i data-lucide="film" class="w-4 h-4 text-indigo-400"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p id="metaFileName" class="text-xs font-semibold text-white truncate">tokyo_neon_drift_720p.mp4</p>
+                                <p id="metaFileSpecs" class="text-[11px] text-slate-400">00:12.0 • 1280x720 HD • Sample Stream</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-studio-800">
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">Video Topic (For AI Analysis):</label>
+                        <input id="videoContextInput" type="text" value="High-speed neon night city travel & street drifting montage" class="w-full px-2.5 py-1.5 rounded-lg bg-studio-950 border border-studio-700 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-studio-900 border border-studio-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-6 h-6 rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-bold flex items-center justify-center">2</span>
+                        <h2 class="font-display font-semibold text-sm text-white">Editing Mode & Preferences</h2>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-[11px] font-medium text-slate-300 block mb-1">Describe Your Editing Needs / Wants:</label>
+                        <textarea id="customPromptInput" rows="2" placeholder="e.g., 'Make it a high-energy gaming montage with beat drops'" class="w-full p-2.5 rounded-xl bg-studio-950 border border-studio-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1.5">Target Aspect Ratio:</label>
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <button type="button" onclick="setAspectRatio('16:9')" id="prefRatio169" class="py-1.5 px-2 rounded-lg text-xs font-semibold border border-indigo-500 bg-indigo-500/20 text-white flex items-center justify-center gap-1">
+                                <i data-lucide="monitor" class="w-3.5 h-3.5"></i> 16:9 Wide
+                            </button>
+                            <button type="button" onclick="setAspectRatio('9:16')" id="prefRatio916" class="py-1.5 px-2 rounded-lg text-xs font-medium border border-studio-700 bg-studio-950 text-slate-300 hover:text-white flex items-center justify-center gap-1">
+                                <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 9:16 Reel
+                            </button>
+                            <button type="button" onclick="setAspectRatio('1:1')" id="prefRatio11" class="py-1.5 px-2 rounded-lg text-xs font-medium border border-studio-700 bg-studio-950 text-slate-300 hover:text-white flex items-center justify-center gap-1">
+                                <i data-lucide="square" class="w-3.5 h-3.5"></i> 1:1 Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="generateAiRecommendations()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-display font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg ai-glow transition">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Generate AI Edit & Recommendations</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- CENTER COLUMN: LIVE VIDEO MONITOR -->
+        <section class="lg:col-span-5 xl:col-span-5 flex flex-col gap-4">
+            <div class="bg-studio-900 border border-studio-800 rounded-2xl p-4 shadow-xl flex flex-col flex-1">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold text-white flex items-center gap-1.5">
+                            <i data-lucide="tv" class="w-4 h-4 text-indigo-400"></i>
+                            Live AI Visual FX Monitor
+                        </span>
+                        <span id="activeLutBadge" class="px-2 py-0.5 rounded-md bg-indigo-500/15 border border-indigo-500/30 text-[11px] text-indigo-300 font-medium">
+                            LUT: High-Contrast Viral
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="toggleLetterbox()" id="letterboxToggleBtn" class="px-2 py-1 rounded-lg bg-studio-850 border border-studio-700 text-slate-300 text-[11px] font-medium">
+                            2.35:1 Bars
+                        </button>
+                        <button onclick="toggleCaptionsOverlay()" id="captionToggleBtn" class="px-2 py-1 rounded-lg bg-studio-850 border border-studio-700 text-slate-400 text-[11px] font-medium flex items-center gap-1">
+                            <i data-lucide="subtitles" class="w-3.5 h-3.5"></i>
+                            <span>CC</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIDEO STAGE -->
+                <div class="relative flex-1 min-h-[300px] bg-studio-950 rounded-xl border border-studio-800 flex items-center justify-center overflow-hidden p-2">
+                    <div id="videoStageFrame" class="relative w-full aspect-video max-h-[380px] bg-black rounded-lg overflow-hidden shadow-2xl flex items-center justify-center transition-all duration-300">
+                        <div id="videoTransformWrapper" class="w-full h-full relative transition-transform duration-150 ease-out">
+                            <video id="mainVideo" class="w-full h-full object-cover hidden" playsinline crossorigin="anonymous"></video>
+                            <canvas id="sampleVideoCanvas" width="1280" height="720" class="w-full h-full object-cover"></canvas>
+                        </div>
+
+                        <div id="letterboxTop" class="absolute top-0 inset-x-0 bg-black z-10 transition-all duration-300 pointer-events-none" style="height: 0%;"></div>
+                        <div id="letterboxBottom" class="absolute bottom-0 inset-x-0 bg-black z-10 transition-all duration-300 pointer-events-none" style="height: 0%;"></div>
+
+                        <!-- SMALL MINIMALIST WEBSITE NAME WATERMARK (Text Only, No Logo Icon) -->
+                        <div id="liveViralWatermark" class="absolute bottom-2.5 right-3 z-25 pointer-events-none transition-all duration-200 select-none">
+                            <div class="px-2.5 py-0.5 rounded-full bg-black/45 backdrop-blur-sm border border-white/10 flex items-center opacity-85">
+                                <span class="font-display font-medium text-[10px] tracking-wide text-white/90 drop-shadow">VyrxCut</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Scanner -->
+                        <div id="aiScannerOverlay" class="hidden absolute inset-0 bg-indigo-950/75 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center">
+                            <div class="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent scanner-line"></div>
+                            <p class="font-display font-bold text-sm text-white">Gemini AI Analyzing Scene Cuts & Motion Vectors...</p>
+                        </div>
+
+                        <!-- HUD -->
+                        <div class="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 pointer-events-none z-20">
+                            <span class="px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-indigo-500/40 text-[10px] font-semibold text-indigo-300 flex items-center gap-1">
+                                <i data-lucide="wand-2" class="w-3 h-3 text-amber-400"></i>
+                                <span id="hudEditTypeName">Viral Fast-Cut Retention Edit</span>
+                            </span>
+                        </div>
+
+                        <!-- CAPTION OVERLAY (Off by default so no running text covers the video) -->
+                        <div id="captionOverlayContainer" class="absolute bottom-8 inset-x-4 flex justify-center pointer-events-none z-20 hidden">
+                            <div id="liveCaptionBox" class="text-center max-w-md">
+                                <span id="liveCaptionText" class="caption-hormozi text-base sm:text-xl tracking-wide inline-block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport -->
+                <div class="mt-3 flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-studio-800">
+                    <div class="flex items-center gap-2">
+                        <button id="playPauseBtn" onclick="togglePlayPause()" class="w-9 h-9 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center shadow-lg transition">
+                            <i data-lucide="pause" class="w-4 h-4 fill-current"></i>
+                        </button>
+                        <button onclick="restartPreview()" class="p-2 rounded-lg bg-studio-850 hover:bg-studio-800 text-slate-300 border border-studio-700">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        </button>
+                        <div class="text-xs font-mono text-slate-300 ml-1">
+                            <span id="currentTimeLabel" class="text-white font-semibold">00:00.0</span> / <span id="durationLabel">00:12.0</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <select id="colorGradeSelect" onchange="applyColorFilter(this.value)" class="bg-studio-850 border border-studio-700 rounded-lg px-2 py-1 text-xs text-indigo-300 font-medium focus:outline-none">
+                            <option value="highcontrast" selected>High-Contrast Viral LUT</option>
+                            <option value="warmfilm">Warm Film 2.35:1 Grade</option>
+                            <option value="cyberpunk">Neon Cyber Glow LUT</option>
+                            <option value="none">Original (No LUT)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIMELINE -->
+            <div class="bg-studio-900 border border-studio-800 rounded-2xl p-3.5 shadow-xl">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-purple-400"></i>
+                        <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-slate-200">Interactive Multi-Track Timeline</h3>
+                    </div>
+                    <span class="text-[10px] text-indigo-300 font-medium">Drag playhead to scrub</span>
+                </div>
+
+                <div id="timelineContainer" class="relative bg-studio-950 border border-studio-800 rounded-xl p-3 cursor-ew-resize select-none overflow-hidden touch-none">
+                    <div id="timelinePlayhead" class="absolute top-0 bottom-0 left-[0%] w-0.5 bg-pink-500 z-20 pointer-events-none">
+                        <div class="w-3.5 h-3.5 -ml-[6px] rounded-full bg-pink-500 border-2 border-white shadow-lg"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-mono text-slate-500 mb-1.5 px-1">
+                        <span>00:00</span><span>00:03</span><span>00:06</span><span>00:09</span><span>00:12</span>
+                    </div>
+                    <div id="videoTrackBar" class="h-6 rounded-lg bg-indigo-950/90 border border-indigo-500/40 relative flex items-center overflow-hidden mb-1.5"></div>
+                    <div id="captionTrackBar" class="h-6 rounded-lg bg-studio-900 border border-studio-800 relative flex items-center overflow-hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: AI RECOMMENDATIONS & EXPORT -->
+        <section class="lg:col-span-3 xl:col-span-4 flex flex-col gap-4">
+            <div class="bg-studio-900 border border-studio-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-pink-500/20 border border-pink-500/40 text-pink-300 text-xs font-bold flex items-center justify-center">3</span>
+                        <div>
+                            <h2 class="font-display font-semibold text-sm text-white">AI Recommendations Studio</h2>
+                            <p class="text-[10px] text-slate-400">Click any Edit Type or Beat to preview live</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-1 p-1 rounded-xl bg-studio-950 border border-studio-800 mb-3 text-xs font-semibold">
+                    <button onclick="switchRecTab('edittypes')" id="tabBtnEditTypes" class="py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center justify-center gap-1.5 shadow">
+                        <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> <span>Edit Types</span>
+                    </button>
+                    <button onclick="switchRecTab('music')" id="tabBtnMusic" class="py-2 rounded-lg text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+                        <i data-lucide="music" class="w-3.5 h-3.5 text-pink-400"></i> <span>Music Beats</span>
+                    </button>
+                    <button onclick="switchRecTab('captions')" id="tabBtnCaptions" class="py-2 rounded-lg text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+                        <i data-lucide="subtitles" class="w-3.5 h-3.5 text-emerald-400"></i> <span>Captions</span>
+                    </button>
+                </div>
+
+                <div id="recPanelEditTypes" class="flex-1 overflow-y-auto pr-1 space-y-2.5 max-h-[420px]">
+                    <div id="editingTypesList" class="space-y-2.5"></div>
+                </div>
+
+                <div id="recPanelMusic" class="hidden flex-1 overflow-y-auto pr-1 space-y-2.5 max-h-[420px]">
+                    <div id="musicRecommendationsList" class="space-y-2.5"></div>
+                </div>
+
+                <div id="recPanelCaptions" class="hidden flex-1 overflow-y-auto pr-1 space-y-3 max-h-[420px]">
+                    <div id="timedCaptionsList" class="space-y-1.5"></div>
+                    <div class="pt-2 border-t border-studio-800">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-semibold text-slate-200">Viral Reel Caption & Hashtags</span>
+                            <button onclick="copySocialCaption()" class="px-2.5 py-1 rounded-md bg-pink-500/20 border border-pink-500/40 text-[10px] text-pink-200 font-semibold">Copy</button>
+                        </div>
+                        <div id="socialCaptionBox" class="p-2.5 rounded-xl bg-studio-950 border border-studio-800 text-xs text-slate-200"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- EXPORT MODAL -->
+    <div id="exportModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-studio-900 border border-studio-700 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display font-bold text-base text-white">Export Free AI Video</h3>
+                <button onclick="closeExportModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-500/30 flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-xs font-semibold text-white">Website Name Mark</p>
+                    <p class="text-[10px] text-slate-400">"VyrxCut" corner text only</p>
+                </div>
+                <button onclick="toggleViralWatermark()" id="exportModalWatermarkBtn" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold">ON</button>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <button onclick="recordRealWebmVideo()" id="recordWebmBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-xs font-bold text-white shadow-lg flex items-center justify-center gap-2">
+                    <i data-lucide="video" class="w-4 h-4"></i> Render & Download .WebM Video
+                </button>
+                <button onclick="openLogoGoogleModal(); closeExportModal();" class="w-full py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center justify-center gap-2">
+                    <i data-lucide="layout-template" class="w-4 h-4"></i> Merge with Google Sites & Get Logo
+                </button>
+                <button onclick="downloadSourceCodeFile()" class="w-full py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 flex items-center justify-center gap-2">
+                    <i data-lucide="file-code" class="w-4 h-4"></i> Download index.html Source File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="logoGoogleModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-studio-900 border border-studio-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl my-8">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-studio-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
+                        <i data-lucide="layout-template" class="w-5 h-5 text-amber-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-base text-white">VyrxCut Brand Logo & Google Sites Merge Hub</h3>
+                        <p class="text-[11px] text-slate-400">Download your official logo & embed this studio directly into Google Sites for free</p>
+                    </div>
+                </div>
+                <button onclick="closeLogoGoogleModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- SECTION 1: BRAND LOGO DOWNLOADER -->
+            <div class="p-4 rounded-xl bg-studio-950 border border-studio-800 mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <canvas id="logoExportCanvas" width="512" height="512" class="w-16 h-16 rounded-2xl shadow-lg border border-white/10 shrink-0"></canvas>
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Official Brand Asset</span>
+                        <h4 class="text-sm font-bold text-white mt-1">VyrxCut High-Res Icon & Favicon (512×512 PNG)</h4>
+                        <p class="text-[11px] text-slate-400">Use this for your Google Sites Header Logo, Favicon, and Instagram Profile Picture.</p>
+                    </div>
+                </div>
+                <div class="flex sm:flex-col gap-2 shrink-0 w-full sm:w-auto">
+                    <button onclick="downloadLogoPng()" class="flex-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow">
+                        <i data-lucide="image" class="w-3.5 h-3.5"></i> Download Logo (.PNG)
+                    </button>
+                    <button onclick="downloadLogoSvg()" class="flex-1 px-3.5 py-1.5 rounded-xl bg-studio-800 hover:bg-studio-700 border border-studio-700 text-[11px] font-semibold text-slate-200 flex items-center justify-center gap-1.5">
+                        <i data-lucide="code" class="w-3.5 h-3.5 text-pink-400"></i> Download Vector (.SVG)
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: HOW TO MERGE WITH GOOGLE SITES -->
+            <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-emerald-950/25 border border-emerald-500/30">
+                    <h4 class="text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                        Yes! You Can Merge VyrxCut Directly Into Google Sites (2 Easy Ways)
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-300">
+                        <div class="p-3 rounded-lg bg-studio-950/90 border border-studio-800">
+                            <p class="font-bold text-white mb-1">Method A: Direct Full-Page EmbedCode (Fastest)</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-400">
+                                <li>Open **[sites.google.com](https://sites.google.com)** & open your site.</li>
+                                <li>Click **Pages** → **+** → **Full page embed**.</li>
+                                <li>Click **Embed Code** and paste the code using the button below!</li>
+                            </ol>
+                            <button onclick="copyGoogleSitesEmbedCode()" class="mt-2.5 w-full py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span id="copyEmbedBtnText">Copy All Code for Google Sites</span>
+                            </button>
+                        </div>
+
+                        <div class="p-3 rounded-lg bg-studio-950/90 border border-studio-800">
+                            <p class="font-bold text-white mb-1">Method B: Embed via Netlify URL (Best for Camera/File Uploads)</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-400">
+                                <li>Download `index.html` and drop it on **app.netlify.com/drop**.</li>
+                                <li>In Google Sites, click **Insert** → **Embed** → **By URL**.</li>
+                                <li>Paste your Netlify link & upload the **VyrxCut Logo PNG** to your Google Site header!</li>
+                            </ol>
+                            <button onclick="downloadSourceCodeFile()" class="mt-2.5 w-full py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                                <span>Download index.html</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-end">
+                <button onclick="closeLogoGoogleModal()" class="px-4 py-2 rounded-xl bg-studio-800 hover:bg-studio-700 text-xs font-semibold text-slate-300">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toastBox" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-xl bg-studio-850 border border-indigo-500/50 text-xs font-semibold text-white shadow-2xl">
+        <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+        <span id="toastMessage">Applied AI Editing Style!</span>
+    </div>
+
+    <script>
+        const state = {
+            videoDuration: 12.0,
+            currentTime: 0,
+            isPlaying: true,
+            captionsEnabled: false,
+            activeFilter: 'highcontrast',
+            letterboxEnabled: false,
+            viralWatermarkEnabled: true,
+            watermarkPosition: 'bottom-right',
+            activeEditTypeIndex: 0,
+            isSampleVideoActive: true,
+
+            editingTypes: [
+                {
+                    title: 'Viral Fast-Cut Retention Edit',
+                    match: 98,
+                    why: 'Hooks viewers in the first 2.5 seconds with rapid dynamic zoom punch-ins and high-contrast LUT.',
+                    lut: 'highcontrast',
+                    letterbox: false
+                },
+                {
+                    title: 'Cinematic Anamorphic Letterbox',
+                    match: 95,
+                    why: 'Creates an authentic widescreen theatrical look with 2.35:1 cinema bars and warm film grading.',
+                    lut: 'warmfilm',
+                    letterbox: true
+                },
+                {
+                    title: 'Velocity Speed-Ramp Montage',
+                    match: 93,
+                    why: 'Built for high-energy action and gaming with rhythmic speed ramps and neon cyber glow LUT.',
+                    lut: 'cyberpunk',
+                    letterbox: false
+                }
+            ],
+
+            musicTracks: [
+                { title: "Phonk Drift Overdrive", bpm: 136, reason: "Heavy 808 sub-bass & cowbell lead syncs with fast velocity cuts." },
+                { title: "Interstellar Horizon Strings", bpm: 104, reason: "Deep cinematic pulse elevates 2.35:1 film grading." }
+            ],
+
+            timedCaptions: [
+                { start: 0.0, end: 3.0, text: "POV: YOU STEP INTO TOKYO AFTER MIDNIGHT 🏮" },
+                { start: 3.0, end: 6.0, text: "WATCH THIS AI VELOCITY BEAT DROP ⚡" },
+                { start: 6.0, end: 9.0, text: "EVERY CORNER FEELS LIKE A SCI-FI MOVIE ✨" },
+                { start: 9.0, end: 12.0, text: "EDITED 100% FREE ON VYRXCUT AI 👇" }
+            ],
+
+            socialCaption: "POV: Losing yourself in the neon pulse of Tokyo after midnight 🏮⚡ Edited in seconds with VyrxCut AI #VyrxCut #InstagramReels #ViralEdit"
+        };
+
+        const filterMap = {
+            highcontrast: "contrast(1.28) saturate(1.38) brightness(1.03)",
+            warmfilm: "contrast(1.14) saturate(1.22) sepia(0.22) hue-rotate(-6deg)",
+            cyberpunk: "contrast(1.26) saturate(1.62) hue-rotate(-18deg)",
+            none: "none"
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setupDraggableTimeline();
+            renderAllRecommendations();
+            loadSampleVideo(true);
+            applyEditingType(0, true);
+            updateWatermarkUI();
+            drawHighResLogoCanvas();
+        });
+
+        function openLogoGoogleModal() {
+            drawHighResLogoCanvas();
+            const m = document.getElementById('logoGoogleModal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeLogoGoogleModal() {
+            const m = document.getElementById('logoGoogleModal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        function drawHighResLogoCanvas() {
+            const canvas = document.getElementById('logoExportCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            // Background Gradient Squircle
+            const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+            bgGrad.addColorStop(0, '#4F46E5');
+            bgGrad.addColorStop(0.5, '#9333EA');
+            bgGrad.addColorStop(1, '#EC4899');
+            ctx.fillStyle = bgGrad;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, w, h, 115);
+            ctx.fill();
+
+            // Subtle Inner Border
+            ctx.strokeStyle = 'rgba(255,255,255,0.24)';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.roundRect(18, 18, w - 36, h - 36, 98);
+            ctx.stroke();
+
+            // Left & Right Film Perforations
+            ctx.fillStyle = 'rgba(255,255,255,0.45)';
+            [145, 256, 367].forEach(y => {
+                ctx.beginPath(); ctx.arc(82, y, 13, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(w - 82, y, 13, 0, Math.PI * 2); ctx.fill();
+            });
+
+            // Left "V" Blade
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo(136, 136);
+            ctx.lineTo(238, 376);
+            ctx.lineTo(282, 282);
+            ctx.lineTo(196, 136);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right Yellow Speed-Cut Blade
+            ctx.fillStyle = '#FDE047';
+            ctx.beginPath();
+            ctx.moveTo(376, 136);
+            ctx.lineTo(264, 376);
+            ctx.lineTo(316, 376);
+            ctx.lineTo(426, 136);
+            ctx.closePath();
+            ctx.fill();
+
+            // Center Play Triangle Accent
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo(238, 188);
+            ctx.lineTo(324, 240);
+            ctx.lineTo(238, 292);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function downloadLogoPng() {
+            drawHighResLogoCanvas();
+            const canvas = document.getElementById('logoExportCanvas');
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vyrxcut-logo-512x512.png';
+            a.click();
+            showToast("Downloaded VyrxCut 512x512 PNG Logo for Google Sites & Instagram!");
+        }
+
+        function downloadLogoSvg() {
+            const svgEl = document.getElementById('vyrxMainLogoSvg');
+            const svgData = new XMLSerializer().serializeToString(svgEl);
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vyrxcut-logo.svg';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Downloaded VyrxCut Vector .SVG Logo!");
+        }
+
+        function copyGoogleSitesEmbedCode() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const temp = document.createElement('textarea');
+            temp.value = htmlContent;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            const btnTxt = document.getElementById('copyEmbedBtnText');
+            if (btnTxt) {
+                btnTxt.textContent = "✅ Copied! Paste in Google Sites -> Embed Code";
+                setTimeout(() => btnTxt.textContent = "Copy All Code for Google Sites", 3000);
+            }
+            showToast("Copied full HTML code! Paste it inside Google Sites -> Embed -> Embed Code.");
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toastBox');
+            document.getElementById('toastMessage').textContent = msg;
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+            setTimeout(() => { box.classList.add('hidden'); box.classList.remove('flex'); }, 3000);
+        }
+
+        function toggleViralWatermark() {
+            state.viralWatermarkEnabled = !state.viralWatermarkEnabled;
+            updateWatermarkUI();
+            showToast(state.viralWatermarkEnabled ? "'VyrxCut' watermark enabled" : "Watermark disabled");
+        }
+
+        function setWatermarkPosition(pos) {
+            state.watermarkPosition = pos;
+            updateWatermarkUI();
+        }
+
+        function updateWatermarkUI() {
+            const liveBadge = document.getElementById('liveViralWatermark');
+            const stateBadge = document.getElementById('watermarkStateBadge');
+            const modalBtn = document.getElementById('exportModalWatermarkBtn');
+
+            if (state.viralWatermarkEnabled) {
+                liveBadge.classList.remove('hidden');
+                stateBadge.textContent = "ON";
+                if (modalBtn) modalBtn.textContent = "ON";
+            } else {
+                liveBadge.classList.add('hidden');
+                stateBadge.textContent = "OFF";
+                if (modalBtn) modalBtn.textContent = "OFF";
+            }
+
+            liveBadge.className = `absolute z-25 pointer-events-none transition-all duration-200 select-none ${state.viralWatermarkEnabled ? '' : 'hidden'} ` +
+                (state.watermarkPosition === 'bottom-right' ? 'bottom-2.5 right-3' :
+                 state.watermarkPosition === 'top-right' ? 'top-2.5 right-3' : 'top-10 left-3');
+        }
+
+        function handleVideoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            state.isSampleVideoActive = false;
+            const video = document.getElementById('mainVideo');
+            const canvas = document.getElementById('sampleVideoCanvas');
+            canvas.classList.add('hidden');
+            video.classList.remove('hidden');
+            video.src = URL.createObjectURL(file);
+            video.load();
+            video.onloadedmetadata = () => {
+                state.videoDuration = video.duration || 12.0;
+                document.getElementById('metaFileName').textContent = file.name;
+                document.getElementById('durationLabel').textContent = formatTime(state.videoDuration);
+                video.play().catch(() => {});
+                showToast(`Loaded "${file.name}"`);
+            };
+        }
+
+        function loadSampleVideo(silent = false) {
+            state.isSampleVideoActive = true;
+            state.videoDuration = 12.0;
+            state.currentTime = 0;
+            document.getElementById('mainVideo').classList.add('hidden');
+            document.getElementById('sampleVideoCanvas').classList.remove('hidden');
+            startSampleAnimationLoop();
+            if (!silent) showToast("Sample Video Stream Active!");
+        }
+
+        let sampleAnimId = null;
+        let lastFrameTime = performance.now();
+
+        function startSampleAnimationLoop() {
+            if (sampleAnimId) cancelAnimationFrame(sampleAnimId);
+            const canvas = document.getElementById('sampleVideoCanvas');
+            const ctx = canvas.getContext('2d');
+            lastFrameTime = performance.now();
+
+            function renderLoop(now) {
+                const dt = (now - lastFrameTime) / 1000;
+                lastFrameTime = now;
+
+                if (state.isPlaying && state.isSampleVideoActive) {
+                    state.currentTime += dt;
+                    if (state.currentTime >= state.videoDuration) state.currentTime = 0;
+                    syncRealtimeEffects();
+                }
+
+                if (state.isSampleVideoActive) {
+                    drawProceduralScene(ctx, canvas.width, canvas.height, state.currentTime);
+                }
+                sampleAnimId = requestAnimationFrame(renderLoop);
+            }
+            sampleAnimId = requestAnimationFrame(renderLoop);
+        }
+
+        function drawProceduralScene(ctx, w, h, t) {
+            const scene = t < 3.0 ? 0 : t < 6.0 ? 1 : t < 9.0 ? 2 : 3;
+            const palettes = [
+                ['#060814', '#1e1b4b', '#4c1d95'],
+                ['#041022', '#0f3f5c', '#701a75'],
+                ['#1a062b', '#581c87', '#be185d'],
+                ['#051923', '#1e293b', '#4338ca']
+            ];
+            const pal = palettes[scene];
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
+            skyGrad.addColorStop(0, pal[0]);
+            skyGrad.addColorStop(0.58, pal[1]);
+            skyGrad.addColorStop(1, pal[2]);
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            const sunY = h * 0.42 - Math.sin(t * 0.9) * 18;
+            ctx.fillStyle = '#fde047';
+            ctx.beginPath();
+            ctx.arc(w * 0.5, sunY, 120, 0, Math.PI * 2);
+            ctx.fill();
+
+            const horizon = h * 0.66;
+            for (let i = 0; i < 16; i++) {
+                const bx = ((i * 92 - t * 65) % (w + 120) + (w + 120)) % (w + 120) - 60;
+                const bh = 120 + ((i * 67) % 190);
+                ctx.fillStyle = '#070912';
+                ctx.fillRect(bx, horizon - bh, 68, bh);
+            }
+
+            ctx.fillStyle = '#05070e';
+            ctx.fillRect(0, horizon, w, h - horizon);
+            ctx.strokeStyle = 'rgba(236, 72, 153, 0.5)';
+            ctx.lineWidth = 2;
+            for (let i = -10; i <= 10; i++) {
+                ctx.beginPath();
+                ctx.moveTo(w * 0.5 + i * 25, horizon);
+                ctx.lineTo(w * 0.5 + i * 180, h);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgba(255,255,255,0.55)';
+            ctx.font = '600 16px "Space Grotesk", sans-serif';
+            ctx.fillText(`CAM 0${scene + 1} • VYRXCUT AI • ${t.toFixed(2)}s`, 32, 48);
+        }
+
+        function syncRealtimeEffects() {
+            const t = state.currentTime;
+            const dur = state.videoDuration || 12.0;
+            document.getElementById('currentTimeLabel').textContent = formatTime(t);
+            const pct = Math.min(100, Math.max(0, (t / dur) * 100));
+            document.getElementById('timelinePlayhead').style.left = `${pct}%`;
+
+            const scale = 1 + ((t % 3) / 3) * 0.14;
+            document.getElementById('videoTransformWrapper').style.transform = `scale(${scale.toFixed(3)})`;
+        }
+
+        function applyEditingType(index, silent = false) {
+            state.activeEditTypeIndex = index;
+            const edit = state.editingTypes[index];
+            applyColorFilter(edit.lut);
+            setLetterboxState(edit.letterbox);
+            document.getElementById('hudEditTypeName').textContent = edit.title;
+            renderAllRecommendations();
+            if (!silent) showToast(`Applied "${edit.title}"`);
+        }
+
+        function applyColorFilter(filterKey) {
+            state.activeFilter = filterKey;
+            const cssFilter = filterMap[filterKey] || 'none';
+            document.getElementById('mainVideo').style.filter = cssFilter;
+            document.getElementById('sampleVideoCanvas').style.filter = cssFilter;
+            document.getElementById('colorGradeSelect').value = filterKey;
+        }
+
+        function toggleLetterbox() {
+            setLetterboxState(!state.letterboxEnabled);
+        }
+
+        function setLetterboxState(enabled) {
+            state.letterboxEnabled = enabled;
+            document.getElementById('letterboxTop').style.height = enabled ? '12%' : '0%';
+            document.getElementById('letterboxBottom').style.height = enabled ? '12%' : '0%';
+        }
+
+        function toggleCaptionsOverlay() {
+            state.captionsEnabled = !state.captionsEnabled;
+            const container = document.getElementById('captionOverlayContainer');
+            if (state.captionsEnabled) {
+                container.classList.remove('hidden');
+                document.getElementById('liveCaptionText').textContent = state.timedCaptions[0].text;
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function togglePlayPause() {
+            state.isPlaying = !state.isPlaying;
+            const btn = document.getElementById('playPauseBtn');
+            btn.innerHTML = state.isPlaying ? '<i data-lucide="pause" class="w-4 h-4 fill-current"></i>' : '<i data-lucide="play" class="w-4 h-4 fill-current"></i>';
+            lucide.createIcons();
+        }
+
+        function restartPreview() {
+            state.currentTime = 0;
+            syncRealtimeEffects();
+        }
+
+        function setAspectRatio(ratio) {
+            const frame = document.getElementById('videoStageFrame');
+            if (ratio === '16:9') frame.className = "relative w-full aspect-video max-h-[380px] bg-black rounded-lg overflow-hidden shadow-2xl flex items-center justify-center transition-all duration-300";
+            else if (ratio === '9:16') frame.className = "relative h-[380px] aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-2xl flex items-center justify-center transition-all duration-300";
+            else frame.className = "relative h-[360px] aspect-square bg-black rounded-lg overflow-hidden shadow-2xl flex items-center justify-center transition-all duration-300";
+        }
+
+        function generateAiRecommendations() {
+            const scanner = document.getElementById('aiScannerOverlay');
+            scanner.classList.remove('hidden');
+            setTimeout(() => {
+                scanner.classList.add('hidden');
+                showToast("AI Recommendations Updated!");
+            }, 900);
+        }
+
+        function setupDraggableTimeline() {
+            const container = document.getElementById('timelineContainer');
+            let dragging = false;
+            function scrub(clientX) {
+                const rect = container.getBoundingClientRect();
+                const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+                state.currentTime = pct * state.videoDuration;
+                syncRealtimeEffects();
+            }
+            container.addEventListener('pointerdown', e => { dragging = true; container.setPointerCapture(e.pointerId); scrub(e.clientX); });
+            container.addEventListener('pointermove', e => { if (dragging) scrub(e.clientX); });
+            container.addEventListener('pointerup', e => { dragging = false; container.releasePointerCapture(e.pointerId); });
+        }
+
+        function renderAllRecommendations() {
+            document.getElementById('editingTypesList').innerHTML = state.editingTypes.map((edit, idx) => `
+                <div onclick="applyEditingType(${idx})" class="p-3.5 rounded-xl border transition cursor-pointer ${state.activeEditTypeIndex === idx ? 'bg-indigo-950/60 border-indigo-500' : 'bg-studio-950 border-studio-800 hover:border-studio-700'}">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-white">${edit.title}</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300">${edit.match}% Match</span>
+                    </div>
+                    <p class="text-[11px] text-slate-300">${edit.why}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('musicRecommendationsList').innerHTML = state.musicTracks.map(track => `
+                <div class="p-3 rounded-xl bg-studio-950 border border-studio-800 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-white">${track.title} <span class="text-pink-300 font-mono text-[10px]">${track.bpm} BPM</span></p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">${track.reason}</p>
+                    </div>
+                    <button onclick="showToast('Playing beat preview!')" class="px-2.5 py-1 rounded-lg bg-studio-800 text-[11px] text-white">Preview</button>
+                </div>
+            `).join('');
+
+            document.getElementById('timedCaptionsList').innerHTML = state.timedCaptions.map(c => `
+                <div class="p-2 rounded-lg bg-studio-950 border border-studio-800 text-xs text-slate-200">
+                    <span class="text-emerald-300 font-mono text-[10px] mr-2">${c.start}s-${c.end}s</span> ${c.text}
+                </div>
+            `).join('');
+
+            document.getElementById('socialCaptionBox').textContent = state.socialCaption;
+        }
+
+        function switchRecTab(tab) {
+            ['edittypes', 'music', 'captions'].forEach(k => {
+                document.getElementById('recPanel' + (k === 'edittypes' ? 'EditTypes' : k.charAt(0).toUpperCase() + k.slice(1))).classList.toggle('hidden', k !== tab);
+            });
+        }
+
+        function openExportModal() {
+            document.getElementById('exportModal').classList.remove('hidden');
+            document.getElementById('exportModal').classList.add('flex');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.add('hidden');
+            document.getElementById('exportModal').classList.remove('flex');
+        }
+
+        function recordRealWebmVideo() {
+            const canvas = document.getElementById('sampleVideoCanvas');
+            if (!canvas.captureStream || typeof MediaRecorder === 'undefined') {
+                downloadSourceCodeFile();
+                return;
+            }
+            const stream = canvas.captureStream(30);
+            const recorder = new MediaRecorder(stream);
+            const chunks = [];
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'vyrxcut-reel.webm';
+                a.click();
+                closeExportModal();
+                showToast("Downloaded rendered .WebM video!");
+            };
+            recorder.start();
+            setTimeout(() => recorder.stop(), 2500);
+        }
+
+        function copySocialCaption() {
+            const temp = document.createElement('textarea');
+            temp.value = state.socialCaption;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast("Copied caption & hashtags!");
+        }
+
+        function downloadSourceCodeFile() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "index.html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Downloaded index.html ready to upload to Netlify!");
+        }
+
+        function formatTime(sec) {
+            const s = Math.max(0, sec || 0);
+            const mins = Math.floor(s / 60);
+            const rem = (s % 60).toFixed(1);
+            return `${String(mins).padStart(2, '0')}:${rem.padStart(4, '0')}`;
+        }
+    </script>
+</body>
+</html>
